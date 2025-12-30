@@ -500,3 +500,136 @@ systemctl status houseweb
 默认管理员账户：
 - 用户名: admin
 - 密码: 在config.json中配置的密码（请立即修改）
+
+## 配置文件详细说明
+
+### config.json 配置项说明
+
+#### database - 数据库配置
+- **host**: MySQL数据库服务器地址
+  - 本地部署使用 `localhost`
+  - 使用阿里云RDS时填写RDS内网地址
+- **port**: MySQL端口号，默认 `3306`
+- **name**: 数据库名称，必须是 `house_db`（包含houseinfo表）
+- **user**: 数据库用户名
+- **password**: 数据库密码（请使用强密码）
+
+#### deepseek - DeepSeek AI配置
+- **api_url**: DeepSeek API接口地址
+  - 默认: `https://api.deepseek.com/v1/chat/completions`
+  - 如DeepSeek更新接口地址，在此修改
+- **api_key**: DeepSeek API密钥
+  - 格式: `sk-xxxxxxxxxxxxxxxx`
+  - 从DeepSeek平台获取
+  - 需要账户有充值余额才能使用
+  - **重要**: 不要将此密钥提交到Git仓库
+
+#### baidu_map - 百度地图配置
+- **api_key**: 百度地图JavaScript API密钥（AK）
+  - 从百度地图开放平台获取
+  - 用于在房源详情页显示地理位置
+  - 需要在百度地图控制台启用"JavaScript API"服务
+
+#### email - 邮件服务配置
+- **smtp_host**: SMTP服务器地址
+  - 阿里云企业邮箱: `smtp.mxhichina.com`
+  - QQ邮箱: `smtp.qq.com`
+  - 网易邮箱: `smtp.163.com`
+  - Gmail: `smtp.gmail.com`
+- **smtp_port**: SMTP端口
+  - SSL加密: `465`
+  - TLS加密: `587`
+  - 根据邮件服务商要求选择
+- **username**: 发件邮箱地址
+  - 示例: `service@yourdomain.com`
+- **password**: 邮箱密码或授权码
+  - QQ邮箱、网易邮箱需要使用"授权码"而非登录密码
+  - 在邮箱设置中生成授权码
+- **from_name**: 发件人显示名称
+  - 显示在邮件"发件人"字段
+  - 示例: "二手房信息服务平台"
+
+**注意**: 当前版本邮件功能为占位实现，生产环境需集成真实SMTP库（如VMime）
+
+#### server - Web服务器配置
+- **port**: HTTP服务监听端口
+  - 默认: `8080`
+  - 如需使用80端口需要root权限
+  - 建议使用Nginx反向代理，应用监听8080
+- **web_root**: Web静态资源根目录
+  - 相对路径: `./web`（相对于可执行文件）
+  - 绝对路径: `/opt/houseweb/web`
+  - 包含HTML、CSS、JS等前端文件
+
+#### admin - 管理员账户配置
+- **default_username**: 默认管理员用户名
+  - 首次启动时自动创建
+  - 建议部署后立即修改
+- **default_password**: 默认管理员密码
+  - **安全警告**: 必须在部署后立即修改
+  - 不要使用弱密码如 `admin123`
+  - 建议使用包含大小写字母、数字、特殊字符的强密码
+
+### 配置安全最佳实践
+
+1. **文件权限**: 设置config.json为仅所有者可读写
+   ```bash
+   chmod 600 /opt/houseweb/config.json
+   chown root:root /opt/houseweb/config.json
+   ```
+
+2. **密码管理**:
+   - 所有密码使用强密码
+   - 定期更换数据库密码
+   - 不要在代码中硬编码密码
+
+3. **API密钥安全**:
+   - 不要将config.json提交到Git仓库
+   - 定期检查API密钥使用情况
+   - DeepSeek API设置使用额度限制
+
+4. **生产环境建议**:
+   - 使用环境变量覆盖敏感配置
+   - 考虑使用阿里云密钥管理服务（KMS）
+   - 启用API访问频率限制
+
+5. **备份配置**:
+   - 备份config.json到安全位置
+   - 使用加密存储备份文件
+   - 定期验证备份有效性
+
+### 配置示例（生产环境）
+
+```json
+{
+  "database": {
+    "host": "rm-xxx.mysql.rds.aliyuncs.com",
+    "port": 3306,
+    "name": "house_db",
+    "user": "houseapp",
+    "password": "StrongP@ssw0rd!2025"
+  },
+  "deepseek": {
+    "api_url": "https://api.deepseek.com/v1/chat/completions",
+    "api_key": "sk-1234567890abcdef1234567890abcdef"
+  },
+  "baidu_map": {
+    "api_key": "AbCdEfGhIjKlMnOpQrStUvWxYz123456"
+  },
+  "email": {
+    "smtp_host": "smtp.exmail.qq.com",
+    "smtp_port": 465,
+    "username": "service@yourcompany.com",
+    "password": "EmailAuthCode123",
+    "from_name": "二手房服务平台"
+  },
+  "server": {
+    "port": 8080,
+    "web_root": "./web"
+  },
+  "admin": {
+    "default_username": "administrator",
+    "default_password": "Complex!Pass@2025#Secure"
+  }
+}
+```
