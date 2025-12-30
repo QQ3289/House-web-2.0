@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据统计 - 二手房信息服务平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>二手房信息服务平台</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="statistics.html">数据统计</a></li>
+                    <li><a href="ai-assistant.html">AI助手</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="stats-section">
+            <h2>房源数据统计</h2>
+            
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3>各地区房源数量</h3>
+                    <canvas id="regionChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>房型分布</h3>
+                    <canvas id="typeChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>各地区平均价格</h3>
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 二手房信息服务平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script src="js/statistics.js"></script>
+</body>
+</html>

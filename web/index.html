@@ -3,156 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二手房信息平台</title>
+    <title>二手房信息服务平台</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
+    <header>
         <div class="container">
-            <div class="nav-brand">
-                <h1>🏠 二手房信息平台</h1>
-            </div>
-            <div class="nav-links">
-                <a href="#" onclick="showPage('home')">首页</a>
-                <a href="#" onclick="showPage('browse')">浏览房源</a>
-                <a href="#" onclick="showPage('favorites')" id="favoritesLink" style="display:none;">我的收藏</a>
-                <a href="#" onclick="showPage('ai')">AI助手</a>
-                <a href="#" onclick="showPage('stats')">数据统计</a>
-                <span id="userInfo" style="display:none;">
-                    <span id="username"></span>
-                    <button onclick="logout()" class="btn-logout">退出</button>
-                </span>
-                <button onclick="showLogin()" id="loginBtn" class="btn-primary">登录</button>
-            </div>
+            <h1>二手房信息服务平台</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="statistics.html">数据统计</a></li>
+                    <li><a href="ai-assistant.html">AI助手</a></li>
+                    <li><a href="#" id="favoritesLink" style="display:none;">我的收藏</a></li>
+                    <li><a href="admin.html" id="adminLink" style="display:none;">管理后台</a></li>
+                    <li><a href="login.html" id="loginLink">登录/注册</a></li>
+                    <li><a href="#" id="logoutLink" style="display:none;">退出</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <!-- 主内容区 -->
-    <div class="container main-content">
-        <!-- 首页 -->
-        <div id="homePage" class="page">
-            <div class="hero">
-                <h2>找到您理想的家</h2>
-                <p>专业的二手房信息服务平台，智能推荐，精准匹配</p>
-                <button onclick="showPage('browse')" class="btn-large">开始浏览</button>
-            </div>
-        </div>
-
-        <!-- 浏览房源页 -->
-        <div id="browsePage" class="page" style="display:none;">
-            <h2>浏览房源</h2>
-            
-            <!-- 筛选条件 -->
-            <div class="filter-panel">
-                <h3>筛选条件</h3>
+    <main class="container">
+        <section class="search-section">
+            <h2>房源筛选</h2>
+            <div class="filters">
                 <div class="filter-group">
-                    <label>价格范围（万元）：</label>
+                    <label>价格范围（万元）:</label>
                     <input type="number" id="minPrice" placeholder="最低价">
-                    <span> - </span>
+                    <span>-</span>
                     <input type="number" id="maxPrice" placeholder="最高价">
                 </div>
                 <div class="filter-group">
-                    <label>面积范围（㎡）：</label>
+                    <label>单价范围（元/㎡）:</label>
+                    <input type="number" id="minUnitPrice" placeholder="最低单价">
+                    <span>-</span>
+                    <input type="number" id="maxUnitPrice" placeholder="最高单价">
+                </div>
+                <div class="filter-group">
+                    <label>面积范围（㎡）:</label>
                     <input type="number" id="minArea" placeholder="最小面积">
-                    <span> - </span>
+                    <span>-</span>
                     <input type="number" id="maxArea" placeholder="最大面积">
                 </div>
                 <div class="filter-group">
-                    <label>小区名称：</label>
-                    <input type="text" id="communityName" placeholder="输入小区名">
+                    <label>地区:</label>
+                    <input type="text" id="region" placeholder="输入地区名称">
                 </div>
                 <div class="filter-group">
-                    <label>户型：</label>
-                    <input type="text" id="houseType" placeholder="例如：两室一厅">
+                    <label>房型:</label>
+                    <input type="text" id="houseType" placeholder="如：两室一厅">
                 </div>
-                <button onclick="searchHouses()" class="btn-primary">搜索</button>
-                <button onclick="resetFilters()" class="btn-secondary">重置</button>
+                <button id="searchBtn" class="btn-primary">搜索</button>
+                <button id="resetBtn" class="btn-secondary">重置</button>
             </div>
+        </section>
 
-            <!-- 房源列表 -->
-            <div id="houseList" class="house-list">
+        <section class="houses-section">
+            <h2>房源列表</h2>
+            <div id="housesList" class="houses-grid">
                 <p class="loading">加载中...</p>
             </div>
-        </div>
-
-        <!-- 房源详情页 -->
-        <div id="detailPage" class="page" style="display:none;">
-            <button onclick="showPage('browse')" class="btn-back">← 返回</button>
-            <div id="houseDetail"></div>
-        </div>
-
-        <!-- 我的收藏页 -->
-        <div id="favoritesPage" class="page" style="display:none;">
-            <h2>我的收藏</h2>
-            <div id="favoritesList" class="house-list"></div>
-        </div>
-
-        <!-- AI助手页 -->
-        <div id="aiPage" class="page" style="display:none;">
-            <h2>🤖 AI购房助手</h2>
-            <div class="ai-container">
-                <div class="ai-chat" id="aiChat">
-                    <div class="ai-message ai-system">
-                        您好！我是AI购房助手，请告诉我您的购房需求，我会为您推荐合适的房源。
-                    </div>
-                </div>
-                <div class="ai-input-container">
-                    <textarea id="aiInput" placeholder="例如：我想买一套100-150平米的三室两厅，预算200-300万，最好在市中心附近..." rows="3"></textarea>
-                    <button onclick="sendAIQuery()" class="btn-primary">发送</button>
-                </div>
+            <div class="pagination">
+                <button id="prevPage" class="btn-secondary" disabled>上一页</button>
+                <span id="pageInfo">第 1 页</span>
+                <button id="nextPage" class="btn-secondary">下一页</button>
             </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 二手房信息服务平台. All rights reserved.</p>
         </div>
+    </footer>
 
-        <!-- 数据统计页 -->
-        <div id="statsPage" class="page" style="display:none;">
-            <h2>数据统计</h2>
-            <div class="stats-buttons">
-                <button onclick="showStats('price_range')" class="btn-primary">按价格区间</button>
-                <button onclick="showStats('area_range')" class="btn-primary">按面积区间</button>
-                <button onclick="showStats('house_type')" class="btn-primary">按户型</button>
-            </div>
-            <div id="statsChart" class="stats-chart"></div>
-        </div>
-    </div>
-
-    <!-- 登录/注册模态框 -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div class="tab-container">
-                <button class="tab-btn active" onclick="switchTab('login')">登录</button>
-                <button class="tab-btn" onclick="switchTab('register')">注册</button>
-            </div>
-
-            <!-- 登录表单 -->
-            <div id="loginForm" class="form-container">
-                <h3>用户登录</h3>
-                <input type="text" id="loginUsername" placeholder="用户名" required>
-                <input type="password" id="loginPassword" placeholder="密码" required>
-                <button onclick="login()" class="btn-primary">登录</button>
-                <a href="#" onclick="showPasswordReset()">忘记密码？</a>
-            </div>
-
-            <!-- 注册表单 -->
-            <div id="registerForm" class="form-container" style="display:none;">
-                <h3>用户注册</h3>
-                <input type="text" id="regUsername" placeholder="用户名" required>
-                <input type="password" id="regPassword" placeholder="密码（至少6位）" required>
-                <input type="email" id="regEmail" placeholder="邮箱" required>
-                <button onclick="register()" class="btn-primary">注册</button>
-            </div>
-
-            <!-- 验证表单 -->
-            <div id="verifyForm" class="form-container" style="display:none;">
-                <h3>邮箱验证</h3>
-                <p>验证码已发送到您的邮箱</p>
-                <input type="text" id="verifyCode" placeholder="验证码" required>
-                <button onclick="verifyEmail()" class="btn-primary">验证</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/app.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 二手房信息服务平台</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>管理后台</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">返回首页</a></li>
+                    <li><a href="#" id="logoutLink">退出</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="admin-section">
+            <h2>用户管理</h2>
+            
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>总用户数</h3>
+                    <p id="totalUsers" class="stat-value">-</p>
+                </div>
+                <div class="stat-card">
+                    <h3>管理员</h3>
+                    <p id="adminCount" class="stat-value">-</p>
+                </div>
+                <div class="stat-card">
+                    <h3>普通用户</h3>
+                    <p id="userCount" class="stat-value">-</p>
+                </div>
+            </div>
+
+            <div class="users-table">
+                <h3>用户列表</h3>
+                <table id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>用户名</th>
+                            <th>邮箱</th>
+                            <th>角色</th>
+                            <th>邮箱验证</th>
+                            <th>注册时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr><td colspan="6">加载中...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 二手房信息服务平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

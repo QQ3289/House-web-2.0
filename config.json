@@ -1,0 +1,31 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "name": "house_db",
+    "user": "your_mysql_user",
+    "password": "your_mysql_password"
+  },
+  "deepseek": {
+    "api_url": "https://api.deepseek.com/v1/chat/completions",
+    "api_key": "your_deepseek_api_key"
+  },
+  "baidu_map": {
+    "api_key": "your_baidu_map_api_key"
+  },
+  "email": {
+    "smtp_host": "smtp.example.com",
+    "smtp_port": 587,
+    "username": "your_email@example.com",
+    "password": "your_email_password",
+    "from_name": "House Web Service"
+  },
+  "server": {
+    "port": 8080,
+    "web_root": "./web"
+  },
+  "admin": {
+    "default_username": "admin",
+    "default_password": "admin123"
+  }
+}

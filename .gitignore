@@ -1,3 +1,24 @@
-*.txt
-DEPLOYMENT.md
+# Build directories
 build/
+build-*/
+cmake-build-*/
+
+# IDE files
+.vscode/
+.idea/
+*.user
+*.pro.user
+
+# Compiled files
+*.o
+*.so
+*.a
+moc_*
+qrc_*
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
