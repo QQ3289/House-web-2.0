@@ -57,37 +57,58 @@ async function loadHouseDetail() {
         document.getElementById('houseDetail').innerHTML = detailHTML;
 
         // Initialize Baidu Map
-        initMap(house.communityName, house.baiduMapKey);
+        initMap(house.communityName || house.houseTitle);
 
     } catch (error) {
         document.getElementById('houseDetail').innerHTML = '<p class="error">加载失败，请重试</p>';
     }
 }
 
-function initMap(location, apiKey) {
-    // Load Baidu Map API
-    const script = document.createElement('script');
-    script.src = `https://api.map.baidu.com/api?v=3.0&ak=${apiKey}&callback=initBaiduMap`;
-    document.body.appendChild(script);
-
-    window.initBaiduMap = function() {
+function initMap(location) {
+    const mapContainer = document.getElementById('map');
+    
+    if (!mapContainer) {
+        console.error('Map container not found');
+        return;
+    }
+    
+    if (typeof BMap === 'undefined') {
+        mapContainer.innerHTML = '<p style="padding: 2rem; text-align: center; color: #999;">百度地图未加载，请检查API密钥配置</p>';
+        return;
+    }
+    
+    try {
         const map = new BMap.Map('map');
         const geocoder = new BMap.Geocoder();
 
         geocoder.getPoint(location, function(point) {
             if (point) {
                 map.centerAndZoom(point, 15);
+                map.enableScrollWheelZoom(true);
+                
                 const marker = new BMap.Marker(point);
                 map.addOverlay(marker);
+                
                 const label = new BMap.Label(location, {offset: new BMap.Size(20, -10)});
                 marker.setLabel(label);
+                
+                // Add info window
+                const infoWindow = new BMap.InfoWindow(`<div style="padding:5px;">${location}</div>`);
+                marker.addEventListener('click', function(){
+                    map.openInfoWindow(infoWindow, point);
+                });
             } else {
-                document.getElementById('map').innerHTML = '<p style="padding: 2rem; text-align: center;">地址解析失败</p>';
+                // Default to Beijing if geocoding fails
+                const defaultPoint = new BMap.Point(116.404, 39.915);
+                map.centerAndZoom(defaultPoint, 12);
+                map.enableScrollWheelZoom(true);
+                mapContainer.innerHTML += '<p style="padding: 1rem; text-align: center; color: #f00;">无法解析地址，显示默认位置</p>';
             }
-        });
-
-        map.enableScrollWheelZoom(true);
-    };
+        }, location.substring(0, 20));
+    } catch (error) {
+        console.error('Baidu Map initialization error:', error);
+        mapContainer.innerHTML = '<p style="padding: 2rem; text-align: center; color: #f00;">地图加载失败</p>';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', loadHouseDetail);

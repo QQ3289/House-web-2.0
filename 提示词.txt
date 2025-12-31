@@ -12,4 +12,5 @@ c、ai助手：接入deepseek的计费api接口，提供只能助手，实现以
 表格：houseinfo(ID【主键】 int 自增主键, houseTitle【房产名】 varchar(100), price【房产总价】 double, area【房产面积】 double, communityNa【小区名】 varchar(255), floor【房产楼层，可为空】 varchar(50), houseType【房型，如两室一厅】varchar(50) unitPrice【每平米的价格】double，houseUrl【数据来源网址】varchar(1024));
 6、设计一个美观的ui；
 7、将所有需要的配置：数据库、deepseek api、百度地图api 单独封装为一个json文件
+8、请编写能够给在生产环境中使用的项目版本，并且告诉我需要哪些配置；
 8、请你生成这个项目，同时生成且仅生成在阿里云ecs(乌班图系统)上部署的指南；

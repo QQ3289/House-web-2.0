@@ -2,6 +2,22 @@
 
 基于Qt6的Linux Web应用，提供二手房信息浏览、筛选、AI智能推荐等服务。
 
+## ⚠️ 生产环境部署必读
+
+本项目现已完成生产环境适配，请务必阅读以下文档：
+
+1. **[PRODUCTION_CONFIG.md](PRODUCTION_CONFIG.md)** - 生产环境完整配置指南（必读）
+2. **[DEPLOYMENT.md](DEPLOYMENT.md)** - Ubuntu服务器部署步骤
+
+### 关键配置项
+
+在部署前必须完成以下配置：
+
+- ✅ 编辑 `config/appconfig.json` 配置数据库、API密钥
+- ✅ 替换 `web/index.html` 和 `web/detail.html` 中的 `YOUR_BAIDU_AK`
+- ✅ 安装并启动 `sendmail` 或配置SMTP服务器
+- ✅ 确保MySQL数据库已创建并导入房源数据
+
 ## 功能特性
 
 ### 用户功能

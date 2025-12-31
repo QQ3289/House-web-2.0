@@ -22,3 +22,8 @@ qrc_*
 # OS files
 .DS_Store
 Thumbs.db
+
+# key
+key.txt
+
+提示词.txt
